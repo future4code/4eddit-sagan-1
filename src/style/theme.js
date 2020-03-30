@@ -1,8 +1,14 @@
-import { createMuiTheme, withTheme } from "@material-ui/core";
-import white from "@material-ui/core/colors/orange";
+import { createMuiTheme, rgbToHex } from "@material-ui/core";
+import orange from "@material-ui/core/colors/orange";
 
 export default createMuiTheme({
   palette: {
-    primary: white
-  }
+    primary: {
+      main: 'rgb(68, 114, 196)',
+      contrastText:'#fff'
+    },
+    secondary: {
+      main: 'rgb(20,52,68)'
+    },
+  },
 });
