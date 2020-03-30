@@ -22,15 +22,17 @@ const middlewares = [
 const store = createStore(generateReducers(history), compose(...middlewares));
 
 const GlobalStyle = createGlobalStyle`
-
+  body{
+    margin:8px;
+  }
 `
 
 
 export const App = () => (
   <Provider store={store}>
-    <GlobalStyle />
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
+      <GlobalStyle />
       <Router history={history} />
     </MuiThemeProvider>
   </Provider>
