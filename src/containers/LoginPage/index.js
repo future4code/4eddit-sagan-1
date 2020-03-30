@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { routes } from '../Router'
+import ButtonAppBar from "../../components/AppBar";
 
 import Button from '@material-ui/core/Button';
 import styled from "styled-components";
@@ -14,6 +15,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div>
+        <ButtonAppBar />
         <form>
         <input type="" placeholder="Email"/>
         <input type="" placeholder="senha"/>
