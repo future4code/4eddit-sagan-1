@@ -15,9 +15,14 @@ export default function ButtonStyle(props) {
 
   return (
     <div className={classes.root}>
-      <Button variant="contained" color="primary"> {props.btnText}
+      <Button
+        variant="contained"
+        color="primary"
+        type={props.type}
+      >
+        {props.btnText}
       </Button>
-     
+
     </div>
   );
 }
