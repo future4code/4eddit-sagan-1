@@ -1,8 +1,8 @@
-import { createMuiTheme } from "@material-ui/core";
-import orange from "@material-ui/core/colors/orange";
+import { createMuiTheme, withTheme } from "@material-ui/core";
+import white from "@material-ui/core/colors/orange";
 
 export default createMuiTheme({
   palette: {
-    primary: orange
+    primary: white
   }
 });
