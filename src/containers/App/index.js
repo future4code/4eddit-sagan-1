@@ -21,7 +21,7 @@ const middlewares = [
 
 const store = createStore(generateReducers(history), compose(...middlewares));
 
-const GlobalStyle = createGlobalStyles`
+const GlobalStyle = createGlobalStyle`
 
 `
 
