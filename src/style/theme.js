@@ -11,5 +11,4 @@ export default createMuiTheme({
       main: 'rgb(20,52,68)'
     },
   },
-
 });
