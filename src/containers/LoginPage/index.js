@@ -15,7 +15,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div>
-        <ButtonAppBar />
+        <ButtonAppBar pageName='LOGIN' btnText='CADASTAR' onClick={this.props.goToRegisterPage} />
         <form>
           <MyTextField
             name="email"

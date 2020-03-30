@@ -18,15 +18,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
- function ButtonAppBar(props) {
+function ButtonAppBar(props) {
   const classes = useStyles();
   return (
     <AppBar color='primary' position="static">
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
-          4eddit-01
+          {props.pageName}
         </Typography>
-        <Button variant="outlined" color="inherit">{props.btnText}</Button>
+        <Button variant="outlined" color="inherit" onClick={props.onClick}>{props.btnText}</Button>
       </Toolbar>
     </AppBar>
   )

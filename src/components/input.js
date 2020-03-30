@@ -23,7 +23,7 @@ export default function MyTextField(props) {
       type={props.type}
       required={props.required}
       value={props.value}
-      
+      onChange={props.onChange}
       />
   );
 }
