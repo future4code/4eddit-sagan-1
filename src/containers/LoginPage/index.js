@@ -7,32 +7,64 @@ import ButtonAppBar from "../../components/AppBar";
 import ButtonStyle from '../../components/button'
 import styled from "styled-components";
 import MyTextField from '../../components/input'
+import { login } from "../../actions";
 
 
 
 
 class LoginPage extends Component {
+    constructor(props){
+      super(props)
+      this.state = {
+        form: {
+          password: '',
+          email: '',
+        }
+    }
+ }
+
+ handleInputValue = (e) => {
+  this.setState({
+    form: {
+      ...this.state.form,
+      [e.target.name]: e.target.value
+    }
+  })
+}
+ 
+ handleSubmit= (e) => {
+    e.preventDefault()
+    this.props.login(this.state.form)
+    this.setState({
+      form: {
+        password: '',
+        email: '',
+      }
+    })
+  }
+ 
+ 
   render() {
     return (
       <div>
         <ButtonAppBar pageName='LOGIN' btnText='CADASTAR' onClick={this.props.goToRegisterPage} />
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <MyTextField
             name="email"
             type="email"
             label="Email"
             required={true}
-            onChange=""
-            value="" />
+            onChange={this.handleInputValue}
+            value={this.state.form.email} />
           <MyTextField
             name="password"
             type="password"
             label="senha"
             required={true}
-            onChange=""
-            value=""
+            onChange={this.handleInputValue}
+            value={this.state.form.password}
           />
-          <ButtonStyle btnText="Entrar"/>
+          <ButtonStyle type="submit" btnText="Entrar"/>
         </form>
       </div>
     );
@@ -41,7 +73,8 @@ class LoginPage extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    goToRegisterPage: () => dispatch(push(routes.register))
+    goToRegisterPage: () => dispatch(push(routes.register)), 
+    login: (form) => dispatch(login(form))
   }
 }
 

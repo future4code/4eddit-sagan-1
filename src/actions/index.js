@@ -20,3 +20,19 @@ export const signup = (form) => async dispatch => {
     console.error(error)
   }
 }
+
+export const login = (form) => async dispatch => {
+  let dataToSend = {...form}
+  try {
+     const response = await axios.post (`${baseUrl}/login`, dataToSend)
+
+     console.log(`Status Requisição login: ${response.status}`)
+     console.log(`Mensagem Requisição login: ${response.statusText}`)
+     console.log(response.data)
+     dispatch(push(routes.feed))
+  }
+  catch (error)
+  {
+    console.error(error)
+  }
+}
