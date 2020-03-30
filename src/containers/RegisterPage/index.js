@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import Button from '@material-ui/core/Button';
 
 class RegisterPage extends Component {
   render() {
@@ -9,7 +9,9 @@ class RegisterPage extends Component {
         <input type="" placeholder="Nome do usuário"/>
         <input type="" placeholder="Email"/>
         <input type="" placeholder="senha"/>
-        <button>Cadastrar</button>
+        <Button 
+        variant="contained" 
+        size="medium"> Cadastrar</Button>
         </form>
       </div>
     );
