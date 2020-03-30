@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { routes } from '../Router'
 
-import Button from '@material-ui/core/Button';
+import ButtonStyle from '../../components/button'
 import styled from "styled-components";
-
+import MyTextField from '../../components/input'
 
 
 
@@ -15,11 +15,22 @@ class LoginPage extends Component {
     return (
       <div>
         <form>
-        <input type="" placeholder="Email"/>
-        <input type="" placeholder="senha"/>
-        <Button 
-        variant="contained" 
-        size="medium"> Entrar</Button>
+          <MyTextField
+            name="email"
+            type="email"
+            label="Email"
+            required={true}
+            onChange=""
+            value="" />
+          <MyTextField
+            name="password"
+            type="password"
+            label="senha"
+            required={true}
+            onChange=""
+            value=""
+          />
+          <ButtonStyle btnText="Entrar"/>
         </form>
       </div>
     );
@@ -27,9 +38,9 @@ class LoginPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => {
-    return {
-      goToRegisterPage: () => dispatch (push(routes.register))
-    }
+  return {
+    goToRegisterPage: () => dispatch(push(routes.register))
+  }
 }
 
 

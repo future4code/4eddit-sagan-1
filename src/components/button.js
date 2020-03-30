@@ -10,15 +10,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Button() {
+export default function ButtonStyle(props) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Button variant="contained" color="primary">
-        Primary
+      <Button variant="contained" color="primary"> {props.btnText}
       </Button>
-     >
+     
     </div>
   );
 }
