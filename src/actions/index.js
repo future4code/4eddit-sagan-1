@@ -53,7 +53,6 @@ export const publishPost = (form) => async dispatch => {
     })
     console.log(`Status Requisição feed: ${response.status}`)
     console.log(`Mensagem Requisição feed: ${response.statusText}`)
-    console.log(response.data)
     
 
     window.alert("Post publicado com sucesso!")
@@ -63,3 +62,29 @@ export const publishPost = (form) => async dispatch => {
   }
 
 }
+
+export const getPosts = () => async dispatch => {
+  const token = localStorage.getItem("token")
+
+  try {
+    const response = await axios.get(`${baseUrl}/posts`, {
+      headers: {
+        "Content-Type": "application/json",
+        auth: token
+      }
+    })
+    console.log(`Status Requisição getposts: ${response.status}`)
+    console.log(`Mensagem Requisição getposts: ${response.statusText}`)
+    dispatch(setPost(response.data.posts))
+  }
+  catch (error) {
+    console.error(error)
+  }
+}
+
+//***** SÍNCRONAS*****//
+
+export const setPost = (listPost) => ({
+    type: "SET_POST_LIST",
+    payload:{listPost, }
+})

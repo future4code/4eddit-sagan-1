@@ -5,7 +5,8 @@ import ButtonStyle from "../../components/button"
 import { push } from "connected-react-router"
 import { connect } from "react-redux"
 import { routes } from "../Router"
-import { publishPost } from "../../actions";
+import { publishPost, getPosts } from "../../actions";
+import Post from "../../components/Post";
 
 class FeedPage extends Component {
   constructor(props) {
@@ -18,12 +19,14 @@ class FeedPage extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   const token = localStorage.getItem("token")
-  //   if(token === null) {
-  //     this.props.goToLoginPage()
-  //   }
-  // }
+  componentDidMount() {
+    const token = localStorage.getItem("token")
+    if (token === null) {
+      this.props.goToLoginPage()
+    } else {
+      this.props.getPostList()
+    }
+  }
 
   handleInputValue = (e) => {
     this.setState({
@@ -46,6 +49,8 @@ class FeedPage extends Component {
   }
 
   render() {
+      console.log(this.props.postList)
+
     return (
       <div>
         <ButtonAppBar
@@ -75,18 +80,24 @@ class FeedPage extends Component {
             type="submit"
           />
         </form>
+        {this.props.postList.map(cadaPost => (
+          <Post post={cadaPost} />
+
+        ))}
+
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-
-}
+const mapStateToProps = (state) => ({
+  postList: state.posts.postList
+})
 
 const mapDispatchToProps = (dispatch) => ({
   goToLoginPage: () => dispatch(push(routes.login)),
-  publishPost: (form) => dispatch(publishPost(form))
+  publishPost: (form) => dispatch(publishPost(form)),
+  getPostList: () => dispatch(getPosts())
 
 })
 
