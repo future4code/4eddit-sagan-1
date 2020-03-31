@@ -5,7 +5,7 @@ import ButtonStyle from "../../components/button"
 import { push } from "connected-react-router"
 import { connect } from "react-redux"
 import { routes } from "../Router"
-import { publishPost, getPosts } from "../../actions";
+import { publishPost, getPosts, getPostDetails } from "../../actions";
 import Post from "../../components/Post";
 
 class FeedPage extends Component {
@@ -83,8 +83,7 @@ class FeedPage extends Component {
         return b.createdAt - a.createdAt
         })
         .map(cadaPost => (
-          <Post post={cadaPost} />
-
+          <Post post={cadaPost} clicaPost={() => this.props.getPostDetails(cadaPost.id)} />
         ))}
 
       </div>
@@ -99,7 +98,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   goToLoginPage: () => dispatch(push(routes.login)),
   publishPost: (form) => dispatch(publishPost(form)),
-  getPostList: () => dispatch(getPosts())
+  getPostList: () => dispatch(getPosts()),
+  getPostDetails: (postId) => dispatch(getPostDetails(postId))
 
 })
 
