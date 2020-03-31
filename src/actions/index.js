@@ -56,6 +56,7 @@ export const publishPost = (form) => async dispatch => {
     
 
     window.alert("Post publicado com sucesso!")
+    dispatch(getPosts())
   }
   catch (error) {
     console.error(error)

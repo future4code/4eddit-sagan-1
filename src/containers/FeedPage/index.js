@@ -49,7 +49,6 @@ class FeedPage extends Component {
   }
 
   render() {
-      console.log(this.props.postList)
 
     return (
       <div>
@@ -80,7 +79,10 @@ class FeedPage extends Component {
             type="submit"
           />
         </form>
-        {this.props.postList.map(cadaPost => (
+        {this.props.postList.sort((a, b) => {
+        return b.createdAt - a.createdAt
+        })
+        .map(cadaPost => (
           <Post post={cadaPost} />
 
         ))}
