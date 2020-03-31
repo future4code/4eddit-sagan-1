@@ -27,3 +27,22 @@ export default function MyTextField(props) {
       />
   );
 }
+
+export function MyTextArea(props) {
+  const classes = useStyles();
+
+  return (
+    
+      <TextField 
+      label={props.label} 
+      variant="outlined"
+      multiline
+      rows="5"
+      name={props.name}
+      type={props.type}
+      required={props.required}
+      value={props.value}
+      onChange={props.onChange}
+      />
+  );
+}

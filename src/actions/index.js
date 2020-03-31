@@ -6,33 +6,60 @@ const baseUrl = 'https://us-central1-future-apis.cloudfunctions.net/fourEddit'
 
 //***** ASSÍNCRONAS*****//
 export const signup = (form) => async dispatch => {
-  let dataToSend = {...form}
+  let dataToSend = { ...form }
   try {
     const response = await axios.post(`${baseUrl}/signup`, dataToSend)
 
     console.log(`Status Requisição signup: ${response.status}`)
     console.log(`Mensagem Requisição signup: ${response.statusText}`)
-    
+
     dispatch(push(routes.feed))
   }
-  catch (error)
-  {
+  catch (error) {
     console.error(error)
   }
 }
 
 export const login = (form) => async dispatch => {
-  let dataToSend = {...form}
+  let dataToSend = { ...form }
   try {
-     const response = await axios.post (`${baseUrl}/login`, dataToSend)
+    const response = await axios.post(`${baseUrl}/login`, dataToSend)
 
-     console.log(`Status Requisição login: ${response.status}`)
-     console.log(`Mensagem Requisição login: ${response.statusText}`)
-     console.log(response.data)
-     dispatch(push(routes.feed))
+    console.log(`Status Requisição login: ${response.status}`)
+    console.log(`Mensagem Requisição login: ${response.statusText}`)
+    console.log(response.data)
+
+    localStorage.setItem("token", response.data.token)
+    dispatch(push(routes.feed))
   }
-  catch (error)
-  {
+  catch (error) {
     console.error(error)
   }
+}
+
+export const publishPost = (form) => async dispatch => {
+  let dataToSend = { ...form }
+
+  const token = localStorage.getItem("token")
+
+  try {
+
+    const response = await axios.post(`${baseUrl}/posts`, dataToSend, {
+      headers: {
+        "Content-Type": "application/json",
+        auth: token
+      }
+
+    })
+    console.log(`Status Requisição feed: ${response.status}`)
+    console.log(`Mensagem Requisição feed: ${response.statusText}`)
+    console.log(response.data)
+    
+
+    window.alert("Post publicado com sucesso!")
+  }
+  catch (error) {
+    console.error(error)
+  }
+
 }
