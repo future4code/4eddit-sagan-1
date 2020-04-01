@@ -1,13 +1,13 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { sizing } from '@material-ui/system'
+
 
 const useStyles = makeStyles(theme => ({
   root: {
     '& > *': {
-      margin: theme.spacing(1),
-      width: "100%",
+      marginBottom:  theme.spacing(1), 
+      marginTop: theme.spacing(1),
     },
   },
 }));
@@ -18,6 +18,7 @@ export default function MyTextField(props) {
   return (
     
       <TextField 
+      className={classes.root}
       label={props.label} 
       variant="outlined"
       name={props.name}
@@ -36,6 +37,7 @@ export function MyTextArea(props) {
   return (
     
       <TextField 
+      className={classes.root}
       label={props.label} 
       variant="outlined"
       multiline

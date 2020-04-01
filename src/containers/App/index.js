@@ -9,6 +9,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { generateReducers } from "../../reducers";
 import { routerMiddleware } from "connected-react-router";
 import { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 
 export const history = createBrowserHistory();
 
@@ -24,7 +25,10 @@ const store = createStore(generateReducers(history), compose(...middlewares));
 const GlobalStyle = createGlobalStyle`
   body{
     margin:8px;
-    min-height:calc(100vh - 16px);
+    height:calc(100vh - 16px);
+  }
+  #root{
+    min-height:100%
   }
 `
 

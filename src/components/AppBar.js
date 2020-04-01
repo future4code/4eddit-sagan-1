@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    height: 64,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 function ButtonAppBar(props) {
   const classes = useStyles();
   return (
-    <AppBar color='primary' position="static">
+    <AppBar className={classes.root} color='primary' position="static">
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
           {props.pageName}
