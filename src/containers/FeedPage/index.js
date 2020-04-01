@@ -1,12 +1,49 @@
 import React, { Component } from "react";
 import ButtonAppBar from "../../components/AppBar";
 import MyTextField, { MyTextArea } from "../../components/input";
-import ButtonStyle from "../../components/button"
-import { push } from "connected-react-router"
-import { connect } from "react-redux"
-import { routes } from "../Router"
+import ButtonStyle from "../../components/button";
+import styled from 'styled-components';
+import { push } from "connected-react-router";
+import { connect } from "react-redux";
+import { routes } from "../Router";
 import { publishPost, getPosts, getPostDetails } from "../../actions";
 import Post from "../../components/Post";
+
+
+const PageWrapper = styled.div`
+   width: 100%;
+   min-height: calc(100vh - 16px);
+   display:flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: center;
+   background-color:#EDF1F9;
+`
+
+const ContentWrapper = styled.div`
+  width: 100%;
+  max-width: 700px;
+  min-height: 100%;
+  border-right: 2px solid #4472C4;
+  border-left: 2px solid #4472C4;
+  background-color: white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+`
+const FormStyle = styled.form`
+  width: 70%;
+  margin-top: 15px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:center;
+  height: 280px;
+`
+const PostList = styled.div`
+  width: 70%;
+`
 
 class FeedPage extends Component {
   constructor(props) {
@@ -51,42 +88,46 @@ class FeedPage extends Component {
   render() {
 
     return (
-      <div>
+      <PageWrapper>
         <ButtonAppBar
           pageName="Timeline"
           btnText="Logout"
           onClick={this.props.goToLoginPage}
         />
-        <form onSubmit={this.handleSubmit}>
-          <MyTextField
-            type="text"
-            name="title"
-            label="Titulo do Post"
-            required={true}
-            onChange={this.handleInputValue}
-            value={this.state.form.title}
-          />
-          <MyTextArea
-            type="text"
-            name="text"
-            label="Texto do Post"
-            required={true}
-            onChange={this.handleInputValue}
-            value={this.state.form.text}
-          />
-          <ButtonStyle
-            btnText="Publicar"
-            type="submit"
-          />
-        </form>
-        {this.props.postList.sort((a, b) => {
-        return b.createdAt - a.createdAt
-        })
-        .map(cadaPost => (
-          <Post post={cadaPost} clicaPost={() => this.props.getPostDetails(cadaPost.id)} />
-        ))}
-
-      </div>
+        <ContentWrapper>
+          <FormStyle onSubmit={this.handleSubmit}>
+            <MyTextField
+              type="text"
+              name="title"
+              label="Titulo do Post"
+              required={true}
+              onChange={this.handleInputValue}
+              value={this.state.form.title}
+            />
+            <MyTextArea
+              type="text"
+              name="text"
+              label="Texto do Post"
+              required={true}
+              onChange={this.handleInputValue}
+              value={this.state.form.text}
+            />
+            <ButtonStyle
+              btnText="Publicar"
+              type="submit"
+            />
+          </FormStyle>
+             
+          <PostList>
+            {this.props.postList.sort((a, b) => {
+              return b.createdAt - a.createdAt
+            })
+              .map(cadaPost => (
+                <Post post={cadaPost} clicaPost={() => this.props.getPostDetails(cadaPost.id)} />
+              ))}
+          </PostList>
+        </ContentWrapper>
+      </PageWrapper>
     );
   }
 }

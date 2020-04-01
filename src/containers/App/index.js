@@ -24,6 +24,7 @@ const store = createStore(generateReducers(history), compose(...middlewares));
 const GlobalStyle = createGlobalStyle`
   body{
     margin:8px;
+    min-height:calc(100vh - 16px);
   }
 `
 
