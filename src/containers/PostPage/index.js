@@ -7,6 +7,42 @@ import { connect } from "react-redux"
 import { routes } from "../Router"
 import { publishPost, getPosts, publishComments } from "../../actions";
 import Post from "../../components/Post";
+import styled from 'styled-components'
+
+const PageWrapper = styled.div`
+   width: 100%;
+   min-height: calc(100vh - 16px);
+   display:flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: center;
+   background-color:#EDF1F9;
+`
+
+const ContentWrapper = styled.div`
+  width: 100%;
+  max-width: 900px;
+  min-height: calc(100vh - 80px);
+  border-right: 2px solid #4472C4;
+  border-left: 2px solid #4472C4;
+  background-color: white;
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+  flex-direction:column;
+`
+const FormStyle = styled.form`
+  width: 70%;
+  margin: 15px 0;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:center;
+`
+const PostList = styled.div`
+  width: 70%;
+  height:100%;
+`
 
 
 class PostPage extends Component {
@@ -43,38 +79,43 @@ class PostPage extends Component {
   render() {
 
     return (
-      <div>
+      <PageWrapper>
         <ButtonAppBar
           pageName="Comentários da Timeline"
           btnText="Voltar"
           onClick={this.props.goBack}
         />
-        <Post post={this.props.post} />
+        <ContentWrapper>
+          <PostList>
+            <Post post={this.props.post} />
+          </PostList>
 
-        <form onSubmit={this.handleSubmit}>
+          <FormStyle onSubmit={this.handleSubmit}>
 
-          <MyTextArea
-            type="text"
-            name="text"
-            label="Escreva seu comentário"
-            required={true}
-            onChange={this.handleInputValue}
-            value={this.state.text}
-          />
-          <ButtonStyle
-            btnText="Comentar"
-            type="submit"
-          />
-        </form>
-        {this.props.post.comments.sort((a, b) => {
-          return b.createdAt - a.createdAt
-        })
-          .map(cadaComentario => (
-            <Post post={cadaComentario} />
+            <MyTextArea
+              type="text"
+              name="text"
+              label="Escreva seu comentário"
+              required={true}
+              onChange={this.handleInputValue}
+              value={this.state.text}
+            />
+            <ButtonStyle
+              btnText="Comentar"
+              type="submit"
+            />
+          </FormStyle>
+          <PostList>
+            {this.props.post.comments.sort((a, b) => {
+              return b.createdAt - a.createdAt
+            })
+              .map(cadaComentario => (
+                <Post key={cadaComentario.id} post={cadaComentario} />
 
-          ))}
-
-      </div>
+              ))}
+          </PostList>
+        </ContentWrapper>
+      </PageWrapper>
     );
   }
 }

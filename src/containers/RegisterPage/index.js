@@ -23,7 +23,7 @@ const PageWrapper = styled.div`
 
 const ContentWrapper= styled.div`
   width: 100%;
-  max-width: 700px;
+  max-width: 900px;
   height: 100%;
   border-right: 2px solid #4472C4;
   border-left: 2px solid #4472C4;
@@ -37,7 +37,6 @@ const FormStyle = styled.form`
   flex-direction:column;
   justify-content:space-between;
   align-items:center;
-  height: 50%;
 `
 class RegisterPage extends Component {
   constructor(props) {

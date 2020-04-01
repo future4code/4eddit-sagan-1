@@ -22,27 +22,27 @@ const PageWrapper = styled.div`
 
 const ContentWrapper = styled.div`
   width: 100%;
-  max-width: 700px;
-  min-height: 100%;
+  max-width: 900px;
+  min-height: calc(100vh - 80px);
   border-right: 2px solid #4472C4;
   border-left: 2px solid #4472C4;
   background-color: white;
   display:flex;
-  justify-content:center;
+  justify-content:flex-start;
   align-items:center;
   flex-direction:column;
 `
 const FormStyle = styled.form`
   width: 70%;
-  margin-top: 15px;
+  margin: 15px 0;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
   align-items:center;
-  height: 280px;
 `
 const PostList = styled.div`
   width: 70%;
+  height:100%;
 `
 
 class FeedPage extends Component {
@@ -123,7 +123,7 @@ class FeedPage extends Component {
               return b.createdAt - a.createdAt
             })
               .map(cadaPost => (
-                <Post post={cadaPost} clicaPost={() => this.props.getPostDetails(cadaPost.id)} />
+                <Post key={cadaPost.id} post={cadaPost} clicaPost={() => this.props.getPostDetails(cadaPost.id)} />
               ))}
           </PostList>
         </ContentWrapper>
