@@ -7,7 +7,38 @@ import { signup } from '../../actions'
 import ButtonStyle from '../../components/button'
 import ButtonAppBar from '../../components/AppBar'
 import MyTextField from '../../components/input'
+import styled from 'styled-components'
 
+
+
+const PageWrapper = styled.div`
+   width: 100%;
+   height: calc(100vh - 16px);
+   display:flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: center;
+   background-color:#EDF1F9;
+`
+
+const ContentWrapper= styled.div`
+  width: 100%;
+  max-width: 700px;
+  height: 100%;
+  border-right: 2px solid #4472C4;
+  border-left: 2px solid #4472C4;
+  background-color: white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+`
+const FormStyle = styled.form`
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:center;
+  height: 50%;
+`
 class RegisterPage extends Component {
   constructor(props) {
     super(props)
@@ -43,9 +74,10 @@ class RegisterPage extends Component {
 
   render() {
     return (
-      <div>
+      <PageWrapper>
         <ButtonAppBar pageName='Registre-se' btnText='VOLTAR' onClick={this.props.goBackToLogin} />
-        <form onSubmit={this.handleSubmit}>
+        <ContentWrapper>
+        <FormStyle onSubmit={this.handleSubmit}>
           <MyTextField
             name="username"
             type="text"
@@ -68,8 +100,9 @@ class RegisterPage extends Component {
             onChange={this.handleInputValue}
             value={this.state.form.password} />
           <ButtonStyle type='submit' btnText="Cadastrar" />
-        </form>
-      </div>
+        </FormStyle>
+        </ContentWrapper>
+      </PageWrapper>
     );
   }
 }
