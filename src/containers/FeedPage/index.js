@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
 import { routes } from "../Router";
-import { publishPost, getPosts, getPostDetails } from "../../actions";
+import { publishPost, getPosts, getPostDetails, votePost } from "../../actions";
 import Post from "../../components/Post";
 
 
@@ -85,6 +85,26 @@ class FeedPage extends Component {
     })
   }
 
+  handleLike = (post) => {
+    let currentVote = post.userVoteDirection
+    if (currentVote < 1) {
+      currentVote++
+      this.props.votePost(post.id, currentVote)
+    }
+  }
+  handleDislike = (post) => {
+    let currentVote = post.userVoteDirection
+    if (currentVote > -1) {
+      currentVote--
+      this.props.votePost(post.id, currentVote)
+    }
+  }
+
+  handleGetPostDetails = (postId) => {
+    this.props.getPostDetails(postId)
+    this.props.goToPostPage()
+  }
+
   render() {
 
     return (
@@ -117,14 +137,21 @@ class FeedPage extends Component {
               type="submit"
             />
           </FormStyle>
-             
+
           <PostList>
             {this.props.postList.sort((a, b) => {
               return b.createdAt - a.createdAt
             })
               .map(cadaPost => (
-                <Post key={cadaPost.id} post={cadaPost} clicaPost={() => this.props.getPostDetails(cadaPost.id)} />
-              ))}
+                <Post
+                  key={cadaPost.id}
+                  content={cadaPost}
+                  onClickComment={() => this.handleGetPostDetails(cadaPost.id)}
+                  onClickLike={() => this.handleLike(cadaPost)}
+                  onClickDislike={() => this.handleDislike(cadaPost)}
+                />
+              ))
+            }
           </PostList>
         </ContentWrapper>
       </PageWrapper>
@@ -138,10 +165,11 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   goToLoginPage: () => dispatch(push(routes.login)),
+  goToPostPage: () => dispatch(push(routes.post)),
   publishPost: (form) => dispatch(publishPost(form)),
   getPostList: () => dispatch(getPosts()),
-  getPostDetails: (postId) => dispatch(getPostDetails(postId))
-
+  getPostDetails: (postId) => dispatch(getPostDetails(postId)),
+  votePost: (postId, direction) => dispatch(votePost(postId, direction))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);

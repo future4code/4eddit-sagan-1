@@ -49,6 +49,10 @@ class LoginPage extends Component {
     }
  }
 
+ componentDidMount(){
+   localStorage.removeItem('token')
+ }
+
  handleInputValue = (e) => {
   this.setState({
     form: {

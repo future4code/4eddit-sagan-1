@@ -21,10 +21,6 @@ const PostHeader = styled.div`
 `
 const PostContent = styled.div`
     min-height:80px;
-    cursor: pointer;
-    &:hover{
-      background-color: #EDF1F9;
-    }
 `
 
 const PostActions = styled.div`
@@ -49,27 +45,35 @@ const PostActions = styled.div`
 
 
 export default function Post(props) {
+  const { content } = props
   return (
     <PostWrapper>
       <PostHeader>
-        {props.post.username} <em>{props.post.title && ` - ${props.post.title}`}</em>
+        {content.title ?
+          <>
+            {content.username} <em> - {content.title}</em>
+          </> :
+          <>
+            {content.username}
+          </>
+        }
       </PostHeader>
 
-      <PostContent onClick={props.clicaPost}>
-        {props.post.text}
+      <PostContent >
+        {content.text}
       </PostContent>
 
       <PostActions>
-        <spam>
-          <i className="fa fa-thumbs-up" aria-hidden="true" ></i>
-          <i className="fa fa-thumbs-down" aria-hidden="true"></i>
-          {props.post.votesCount || 0}
-        </spam>
-        {props.post.commentsCount !== undefined &&
-          <spam>
-            <i className="fa fa-commenting" aria-hidden="true"></i>
-            {props.post.commentsCount}
-          </spam>}
+        <span>
+          <i className="fa fa-thumbs-up" aria-hidden="true" onClick={props.onClickLike} ></i>
+          <i className="fa fa-thumbs-down" aria-hidden="true" onClick={props.onClickDislike}></i>
+          {content.votesCount || 0}
+        </span>
+        {content.commentsCount !== undefined &&
+          <span>
+            <i className="fa fa-commenting" aria-hidden="true" onClick={props.onClickComment}></i>
+            {content.commentsCount}
+          </span>}
       </PostActions>
 
     </PostWrapper>

@@ -5,7 +5,7 @@ import ButtonStyle from "../../components/button"
 import { push, goBack } from "connected-react-router"
 import { connect } from "react-redux"
 import { routes } from "../Router"
-import { publishPost, getPosts, publishComments } from "../../actions";
+import { publishPost, getPosts, publishComments, voteComment } from "../../actions";
 import Post from "../../components/Post";
 import styled from 'styled-components'
 
@@ -53,14 +53,14 @@ class PostPage extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   const token = localStorage.getItem("token")
-  //   if (token === null) {
-  //     this.props.goToLoginPage()
-  //   } else {
-  //     this.props.getPostList()
-  //   }
-  // }
+  componentDidMount() {
+    const token = localStorage.getItem("token")
+    if (token === null) {
+      this.props.goToLoginPage()
+    } else {
+      this.props.getPostList()
+    }
+  }
 
   handleInputValue = (e) => {
     this.setState({
@@ -76,8 +76,23 @@ class PostPage extends Component {
     })
   }
 
-  render() {
+  handleLike = (post, comment) => {
+    let currentVote = comment.userVoteDirection
+    if (currentVote < 1) {
+      currentVote++
+      this.props.voteComment(post.id, comment.id, currentVote)
+    }
+  }
+  handleDislike = (post, comment) => {
+    let currentVote = comment.userVoteDirection
+    if (currentVote > -1) {
+      currentVote--
+      this.props.voteComment(post.id, comment.id, currentVote)
+    }
+  }
 
+  render() {
+    const { post } = this.props
     return (
       <PageWrapper>
         <ButtonAppBar
@@ -87,11 +102,10 @@ class PostPage extends Component {
         />
         <ContentWrapper>
           <PostList>
-            <Post post={this.props.post} />
+            {post && <Post content={post} />}
           </PostList>
 
           <FormStyle onSubmit={this.handleSubmit}>
-
             <MyTextArea
               type="text"
               name="text"
@@ -106,13 +120,18 @@ class PostPage extends Component {
             />
           </FormStyle>
           <PostList>
-            {this.props.post.comments.sort((a, b) => {
+            {post && post.comments.sort((a, b) => {
               return b.createdAt - a.createdAt
             })
               .map(cadaComentario => (
-                <Post key={cadaComentario.id} post={cadaComentario} />
-
-              ))}
+                <Post
+                  key={cadaComentario.id}
+                  content={cadaComentario}
+                  onClickLike={() => this.handleLike(post, cadaComentario)}
+                  onClickDislike={() => this.handleDislike(post, cadaComentario)}
+                />
+              ))
+            }
           </PostList>
         </ContentWrapper>
       </PageWrapper>
@@ -127,8 +146,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   goBack: () => dispatch(goBack()),
   publishComments: (postId, text) => dispatch(publishComments(postId, text)),
-  getPostList: () => dispatch(getPosts())
-
+  getPostList: () => dispatch(getPosts()),
+  voteComment: (postId, commentId, direction) => dispatch(voteComment(postId, commentId, direction))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostPage);

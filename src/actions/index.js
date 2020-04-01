@@ -96,7 +96,7 @@ export const getPostDetails = (postId) => async dispatch => {
     console.log(`Status Requisição getPostsDetails: ${response.status}`)
     console.log(`Mensagem Requisição getPostsDetails: ${response.statusText}`)
     dispatch(setPostDetails(response.data.post))
-    dispatch(push(routes.post))
+    
 
   }
   catch (error) {
@@ -118,6 +118,49 @@ export const publishComments = (postId, text) => async dispatch => {
     console.log(`Status Requisição createComments: ${response.status}`)
     console.log(`Mensagem Requisição createComments: ${response.statusText}`)
     dispatch(getPostDetails(postId))
+  }
+  catch (error) {
+    console.error(error)
+  }
+}
+
+export const votePost = (postId, direction) => async dispatch => {
+  const token = localStorage.getItem('token')
+  const dataToSend = { direction: direction }
+
+  try {
+    const response = await axios.put(`${baseUrl}/posts/${postId}/vote`, dataToSend, {
+      headers: {
+        "Content-Type": "application/json",
+        auth: token
+      }
+    })
+    console.log(`Status Requisição votePost: ${response.status}`)
+    console.log(`Mensagem Requisição votePost: ${response.statusText}`)
+    dispatch(getPosts())
+  }
+  catch (error) {
+    console.error(error)
+  }
+}
+
+export const voteComment = (postId, commentId, direction) => async dispatch => {
+  const token = localStorage.getItem('token')
+  const dataToSend = { direction: direction }
+
+  try {
+    const response = await axios.put(`${baseUrl}/posts/${postId}/comment/${commentId}/vote`, dataToSend, {
+      headers: {
+        "Content-Type": "application/json",
+        auth: token
+      }
+    })
+    console.log(`Status Requisição voteComment: ${response.status}`)
+    console.log(`Mensagem Requisição voteComment: ${response.statusText}`)
+    dispatch(getPostDetails(postId))
+    /* console.log('passou aqui')
+    console.log(dataToSend)
+    console.log(postId, commentId) */
   }
   catch (error) {
     console.error(error)
