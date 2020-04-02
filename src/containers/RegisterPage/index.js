@@ -1,15 +1,13 @@
 import React, { Component } from "react";
+import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { push, goBack } from 'connected-react-router'
+import { goBack } from 'connected-react-router'
 
 import { signup } from '../../actions'
 
 import ButtonStyle from '../../components/button'
 import ButtonAppBar from '../../components/AppBar'
 import MyTextField from '../../components/input'
-import styled from 'styled-components'
-
-
 
 const PageWrapper = styled.div`
    width: 100%;
@@ -20,8 +18,7 @@ const PageWrapper = styled.div`
    align-items: center;
    background-color:#EDF1F9;
 `
-
-const ContentWrapper= styled.div`
+const ContentWrapper = styled.div`
   width: 100%;
   max-width: 900px;
   height: 100%;
@@ -33,11 +30,13 @@ const ContentWrapper= styled.div`
   align-items:center;
 `
 const FormStyle = styled.form`
+  width: 35%;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
   align-items:center;
 `
+
 class RegisterPage extends Component {
   constructor(props) {
     super(props)
@@ -76,30 +75,30 @@ class RegisterPage extends Component {
       <PageWrapper>
         <ButtonAppBar pageName='Registre-se' btnText='VOLTAR' onClick={this.props.goBackToLogin} />
         <ContentWrapper>
-        <FormStyle onSubmit={this.handleSubmit}>
-          <MyTextField
-            name="username"
-            type="text"
-            label="Nomde do Usuário"
-            required={true}
-            onChange={this.handleInputValue}
-            value={this.state.form.username} />
-          <MyTextField
-            name="email"
-            type="email"
-            label="Email"
-            required={true}
-            onChange={this.handleInputValue}
-            value={this.state.form.email} />
-          <MyTextField
-            name="password"
-            type="password"
-            label="Senha"
-            required={true}
-            onChange={this.handleInputValue}
-            value={this.state.form.password} />
-          <ButtonStyle type='submit' btnText="Cadastrar" />
-        </FormStyle>
+          <FormStyle onSubmit={this.handleSubmit}>
+            <MyTextField
+              name="username"
+              type="text"
+              label="Nomde do Usuário"
+              required={true}
+              onChange={this.handleInputValue}
+              value={this.state.form.username} />
+            <MyTextField
+              name="email"
+              type="email"
+              label="Email"
+              required={true}
+              onChange={this.handleInputValue}
+              value={this.state.form.email} />
+            <MyTextField
+              name="password"
+              type="password"
+              label="Senha"
+              required={true}
+              onChange={this.handleInputValue}
+              value={this.state.form.password} />
+            <ButtonStyle type='submit' btnText="Cadastrar" />
+          </FormStyle>
         </ContentWrapper>
       </PageWrapper>
     );

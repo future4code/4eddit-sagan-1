@@ -13,6 +13,7 @@ export const signup = (form) => async dispatch => {
     console.log(`Status Requisição signup: ${response.status}`)
     console.log(`Mensagem Requisição signup: ${response.statusText}`)
 
+    localStorage.setItem("token", response.data.token)
     dispatch(push(routes.feed))
   }
   catch (error) {
@@ -27,7 +28,6 @@ export const login = (form) => async dispatch => {
 
     console.log(`Status Requisição login: ${response.status}`)
     console.log(`Mensagem Requisição login: ${response.statusText}`)
-    console.log(response.data)
 
     localStorage.setItem("token", response.data.token)
     dispatch(push(routes.feed))
@@ -39,21 +39,16 @@ export const login = (form) => async dispatch => {
 
 export const publishPost = (form) => async dispatch => {
   let dataToSend = { ...form }
-
   const token = localStorage.getItem("token")
-
   try {
-
     const response = await axios.post(`${baseUrl}/posts`, dataToSend, {
       headers: {
         "Content-Type": "application/json",
         auth: token
       }
-
     })
     console.log(`Status Requisição feed: ${response.status}`)
     console.log(`Mensagem Requisição feed: ${response.statusText}`)
-
 
     window.alert("Post publicado com sucesso!")
     dispatch(getPosts())
@@ -61,12 +56,10 @@ export const publishPost = (form) => async dispatch => {
   catch (error) {
     console.error(error)
   }
-
 }
 
 export const getPosts = () => async dispatch => {
   const token = localStorage.getItem("token")
-
   try {
     const response = await axios.get(`${baseUrl}/posts`, {
       headers: {
@@ -85,7 +78,6 @@ export const getPosts = () => async dispatch => {
 
 export const getPostDetails = (postId) => async dispatch => {
   const token = localStorage.getItem("token")
-
   try {
     const response = await axios.get(`${baseUrl}/posts/${postId}`, {
       headers: {
@@ -96,8 +88,6 @@ export const getPostDetails = (postId) => async dispatch => {
     console.log(`Status Requisição getPostsDetails: ${response.status}`)
     console.log(`Mensagem Requisição getPostsDetails: ${response.statusText}`)
     dispatch(setPostDetails(response.data.post))
-    
-
   }
   catch (error) {
     console.error(error)
@@ -107,7 +97,6 @@ export const getPostDetails = (postId) => async dispatch => {
 export const publishComments = (postId, text) => async dispatch => {
   const token = localStorage.getItem("token")
   const dataToSend = { text: text }
-
   try {
     const response = await axios.post(`${baseUrl}/posts/${postId}/comment`, dataToSend, {
       headers: {
@@ -127,7 +116,6 @@ export const publishComments = (postId, text) => async dispatch => {
 export const votePost = (postId, direction) => async dispatch => {
   const token = localStorage.getItem('token')
   const dataToSend = { direction: direction }
-
   try {
     const response = await axios.put(`${baseUrl}/posts/${postId}/vote`, dataToSend, {
       headers: {
@@ -147,7 +135,6 @@ export const votePost = (postId, direction) => async dispatch => {
 export const voteComment = (postId, commentId, direction) => async dispatch => {
   const token = localStorage.getItem('token')
   const dataToSend = { direction: direction }
-
   try {
     const response = await axios.put(`${baseUrl}/posts/${postId}/comment/${commentId}/vote`, dataToSend, {
       headers: {
@@ -158,9 +145,6 @@ export const voteComment = (postId, commentId, direction) => async dispatch => {
     console.log(`Status Requisição voteComment: ${response.status}`)
     console.log(`Mensagem Requisição voteComment: ${response.statusText}`)
     dispatch(getPostDetails(postId))
-    /* console.log('passou aqui')
-    console.log(dataToSend)
-    console.log(postId, commentId) */
   }
   catch (error) {
     console.error(error)
@@ -168,7 +152,6 @@ export const voteComment = (postId, commentId, direction) => async dispatch => {
 }
 
 //***** SÍNCRONAS*****//
-
 export const setPost = (listPost) => ({
   type: "SET_POST_LIST",
   payload: { listPost, }

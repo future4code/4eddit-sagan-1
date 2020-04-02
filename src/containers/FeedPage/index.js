@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import ButtonAppBar from "../../components/AppBar";
-import MyTextField, { MyTextArea } from "../../components/input";
-import ButtonStyle from "../../components/button";
 import styled from 'styled-components';
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
-import { routes } from "../Router";
-import { publishPost, getPosts, getPostDetails, votePost } from "../../actions";
-import Post from "../../components/Post";
 
+import { publishPost, getPosts, getPostDetails, votePost } from "../../actions";
+
+import { routes } from "../Router";
+import MyTextField, { MyTextArea } from "../../components/input";
+import ButtonStyle from "../../components/button";
+import ButtonAppBar from "../../components/AppBar";
+import Post from "../../components/Post";
 
 const PageWrapper = styled.div`
    width: 100%;
@@ -18,8 +19,10 @@ const PageWrapper = styled.div`
    justify-content: flex-start;
    align-items: center;
    background-color:#EDF1F9;
+   .fa-spinner{
+     color:#4472C4
+   }
 `
-
 const ContentWrapper = styled.div`
   width: 100%;
   max-width: 900px;
@@ -43,6 +46,9 @@ const FormStyle = styled.form`
 const PostList = styled.div`
   width: 70%;
   height:100%;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
 `
 
 class FeedPage extends Component {
@@ -52,7 +58,8 @@ class FeedPage extends Component {
       form: {
         title: "",
         text: ""
-      }
+      },
+      searchInputValue: ''
     }
   }
 
@@ -74,6 +81,12 @@ class FeedPage extends Component {
     })
   }
 
+  handleSearchInputValue = (e) => {
+    this.setState({
+      searchInputValue: e.target.value
+    })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.publishPost(this.state.form)
@@ -87,15 +100,23 @@ class FeedPage extends Component {
 
   handleLike = (post) => {
     let currentVote = post.userVoteDirection
-    if (currentVote < 1) {
-      currentVote++
+
+    if (currentVote === 1) {
+      currentVote = 0
+      this.props.votePost(post.id, currentVote)
+    } else {
+      currentVote = 1
       this.props.votePost(post.id, currentVote)
     }
   }
+
   handleDislike = (post) => {
     let currentVote = post.userVoteDirection
-    if (currentVote > -1) {
-      currentVote--
+    if (currentVote === -1) {
+      currentVote = 0
+      this.props.votePost(post.id, currentVote)
+    } else {
+      currentVote = -1
       this.props.votePost(post.id, currentVote)
     }
   }
@@ -106,13 +127,16 @@ class FeedPage extends Component {
   }
 
   render() {
-
+    const { postList, goToLoginPage } = this.props
+    const { searchInputValue, form } = this.state
     return (
       <PageWrapper>
         <ButtonAppBar
           pageName="Timeline"
           btnText="Logout"
-          onClick={this.props.goToLoginPage}
+          onClick={goToLoginPage}
+          searchValue={searchInputValue}
+          onChangeSearchInputValue={this.handleSearchInputValue}
         />
         <ContentWrapper>
           <FormStyle onSubmit={this.handleSubmit}>
@@ -122,7 +146,7 @@ class FeedPage extends Component {
               label="Titulo do Post"
               required={true}
               onChange={this.handleInputValue}
-              value={this.state.form.title}
+              value={form.title}
             />
             <MyTextArea
               type="text"
@@ -130,27 +154,35 @@ class FeedPage extends Component {
               label="Texto do Post"
               required={true}
               onChange={this.handleInputValue}
-              value={this.state.form.text}
+              value={form.text}
             />
             <ButtonStyle
               btnText="Publicar"
               type="submit"
             />
           </FormStyle>
-
           <PostList>
-            {this.props.postList.sort((a, b) => {
-              return b.createdAt - a.createdAt
-            })
-              .map(cadaPost => (
-                <Post
-                  key={cadaPost.id}
-                  content={cadaPost}
-                  onClickComment={() => this.handleGetPostDetails(cadaPost.id)}
-                  onClickLike={() => this.handleLike(cadaPost)}
-                  onClickDislike={() => this.handleDislike(cadaPost)}
-                />
+            {postList.length > 0 ?
+              postList.filter(cadaPost => (
+                searchInputValue ?
+                  cadaPost.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes((searchInputValue).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) ||
+                  cadaPost.text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes((searchInputValue).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) ||
+                  cadaPost.username.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes((searchInputValue).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""))
+                  : true
               ))
+                .sort((a, b) => {
+                  return b.createdAt - a.createdAt
+                })
+                .map(cadaPost => (
+                  <Post
+                    key={cadaPost.id}
+                    content={cadaPost}
+                    onClickComment={() => this.handleGetPostDetails(cadaPost.id)}
+                    onClickLike={() => this.handleLike(cadaPost)}
+                    onClickDislike={() => this.handleDislike(cadaPost)}
+                  />
+                ))
+              : <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             }
           </PostList>
         </ContentWrapper>
