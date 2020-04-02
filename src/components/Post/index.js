@@ -2,45 +2,40 @@ import React from 'react'
 import styled from 'styled-components'
 
 const PostWrapper = styled.div`
-    width:100%;
-    display:flex;
-    flex-direction: column;
-    border-radius: 5px;
-    border: 1px solid #4472C4;
-    margin: 3% 0;
+  width:100%;
+  display:flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid #4472C4;
+  margin: 3% 0;
 `
 const PostHeader = styled.div`
-    background-color: #4472C4;
-    color: white;
-    border-radius: 5px 5px 0 0;
-    height:30px;
-    font-size:1.1rem;
+  background-color: #4472C4;
+  color: white;
+  border-radius: 5px 5px 0 0;
+  height:30px;
+  font-size:1.1rem;
 `
 const PostContent = styled.div`
-    min-height:80px;
+  min-height:80px;
 `
 const PostActions = styled.div`
-    background-color:#4472C4;
-    color:white;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding: 0 10px;
-    height:30px;
-     .fa{
-        margin: 0 3px;
-        font-size:1.1rem;
-        cursor: pointer;
-    }
-     .fa:last-of-type{
-      margin-right: 6px;
-    }
-    .dislike{
-      color:#ff5233;
-    }
-    .like{
-      color:#6fb94f
-    }
+  background-color:#4472C4;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 0 10px;
+  height:30px;
+`
+const FaWrapper = styled.span`
+  color: ${props => props.inputColor || "white"};
+  margin: 0 3px;
+  font-size:1.1rem;
+  cursor: pointer;
+  &:last-of-type{
+    margin-right: 6px;
+  }
 `
 
 export default function Post(props) {
@@ -51,7 +46,7 @@ export default function Post(props) {
   switch (content.userVoteDirection) {
     case -1:
       colorLike = false
-      colorDislike = 'dislike'
+      colorDislike = '#ff5233'
       break;
 
     case 0:
@@ -61,7 +56,7 @@ export default function Post(props) {
 
     case 1:
       colorDislike = false
-      colorLike = 'like'
+      colorLike = '#6fb94f'
       break;
 
     default:
@@ -87,13 +82,13 @@ export default function Post(props) {
       </PostContent>
       <PostActions>
         <span>
-          <i className={`fa fa-thumbs-up ${colorLike}`} aria-hidden="true" onClick={props.onClickLike} ></i>
-          <i className={`fa fa-thumbs-down ${colorDislike}`} aria-hidden="true" onClick={props.onClickDislike}></i>
+          <FaWrapper className="fa fa-thumbs-up" inputColor={colorLike} aria-hidden="true" onClick={props.onClickLike} ></FaWrapper>
+          <FaWrapper className="fa fa-thumbs-down" inputColor={colorDislike} aria-hidden="true" onClick={props.onClickDislike}></FaWrapper>
           {content.votesCount || 0}
         </span>
         {content.commentsCount !== undefined &&
           <span>
-            <i className="fa fa-commenting" aria-hidden="true" onClick={props.onClickComment}></i>
+            <FaWrapper className="fa fa-commenting" aria-hidden="true" onClick={props.onClickComment}></FaWrapper>
             {content.commentsCount}
           </span>}
       </PostActions>
