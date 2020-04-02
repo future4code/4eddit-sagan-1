@@ -10,6 +10,7 @@ import { publishPost, getPosts, getPostDetails, votePost } from "../../actions";
 import Post from "../../components/Post";
 
 
+
 const PageWrapper = styled.div`
    width: 100%;
    min-height: calc(100vh - 16px);
@@ -43,6 +44,9 @@ const FormStyle = styled.form`
 const PostList = styled.div`
   width: 70%;
   height:100%;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
 `
 
 class FeedPage extends Component {
@@ -96,6 +100,7 @@ class FeedPage extends Component {
       this.props.votePost(post.id, currentVote)
     }
   }
+
   handleDislike = (post) => {
     let currentVote = post.userVoteDirection
     if (currentVote === -1) {
@@ -113,7 +118,7 @@ class FeedPage extends Component {
   }
 
   render() {
-
+    const {postList} = this.props
     return (
       <PageWrapper>
         <ButtonAppBar
@@ -146,7 +151,7 @@ class FeedPage extends Component {
           </FormStyle>
 
           <PostList>
-            {this.props.postList.sort((a, b) => {
+            {postList.length > 0 ? postList.sort((a, b) => {
               return b.createdAt - a.createdAt
             })
               .map(cadaPost => (
@@ -157,7 +162,8 @@ class FeedPage extends Component {
                   onClickLike={() => this.handleLike(cadaPost)}
                   onClickDislike={() => this.handleDislike(cadaPost)}
                 />
-              ))
+              )) :
+              <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             }
           </PostList>
         </ContentWrapper>

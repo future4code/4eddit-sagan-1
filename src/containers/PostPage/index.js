@@ -42,6 +42,9 @@ const FormStyle = styled.form`
 const PostList = styled.div`
   width: 70%;
   height:100%;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
 `
 
 
@@ -128,7 +131,8 @@ class PostPage extends Component {
             />
           </FormStyle>
           <PostList>
-            {post && post.comments.sort((a, b) => {
+            {post ?
+             post.comments.sort((a, b) => {
               return b.createdAt - a.createdAt
             })
               .map(cadaComentario => (
@@ -138,7 +142,8 @@ class PostPage extends Component {
                   onClickLike={() => this.handleLike(post, cadaComentario)}
                   onClickDislike={() => this.handleDislike(post, cadaComentario)}
                 />
-              ))
+              )) :
+              <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             }
           </PostList>
         </ContentWrapper>
