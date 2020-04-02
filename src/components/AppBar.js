@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
-      width: 'auto',
+      width: '20%',
     },
   },
   searchIcon: {
@@ -46,13 +46,14 @@ const useStyles = makeStyles(theme => ({
   },
   inputRoot: {
     color: 'inherit',
+    width: '100%'
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 7),
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: 200,
+      width: '100%',
     },
   }
 }));
@@ -65,12 +66,14 @@ function ButtonAppBar(props) {
         <Typography variant="h6" >
           {props.pageName}
         </Typography>
-        {props.onChangeSearchInputValue && <div className={classes.search}>
+        {props.onChangeSearchInputValue && 
+        <div className={classes.search}>
           <div className={classes.searchIcon}>
             <SearchIcon />
           </div>
           <InputBase
-            placeholder="Busca…"
+            title="Busque por nome, titulo ou conteúdo"
+            placeholder="Busca..."
             classes={{
               root: classes.inputRoot,
               input: classes.inputInput,

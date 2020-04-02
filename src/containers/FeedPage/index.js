@@ -166,7 +166,8 @@ class FeedPage extends Component {
               postList.filter(cadaPost => (
                 searchInputValue ?
                   cadaPost.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes((searchInputValue).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) ||
-                  cadaPost.text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes((searchInputValue).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""))
+                  cadaPost.text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes((searchInputValue).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) ||
+                  cadaPost.username.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes((searchInputValue).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""))
                   : true
               ))
                 .sort((a, b) => {
