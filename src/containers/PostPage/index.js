@@ -1,13 +1,15 @@
 import React, { Component } from "react";
-import ButtonAppBar from "../../components/AppBar";
-import MyTextField, { MyTextArea } from "../../components/input";
-import ButtonStyle from "../../components/button"
-import { push, goBack } from "connected-react-router"
-import { connect } from "react-redux"
-import { routes } from "../Router"
-import { publishPost, getPosts, publishComments, voteComment } from "../../actions";
-import Post from "../../components/Post";
 import styled from 'styled-components'
+import { goBack, push } from "connected-react-router"
+import { connect } from "react-redux"
+
+import { getPosts, publishComments, voteComment } from "../../actions";
+
+import ButtonAppBar from "../../components/AppBar";
+import { MyTextArea } from "../../components/input";
+import ButtonStyle from "../../components/button"
+import Post from "../../components/Post";
+import { routes } from "../Router";
 
 const PageWrapper = styled.div`
    width: 100%;
@@ -17,8 +19,10 @@ const PageWrapper = styled.div`
    justify-content: flex-start;
    align-items: center;
    background-color:#EDF1F9;
+   .fa-spinner{
+     color:#4472C4
+   }
 `
-
 const ContentWrapper = styled.div`
   width: 100%;
   max-width: 900px;
@@ -46,7 +50,6 @@ const PostList = styled.div`
   justify-content:center;
   flex-wrap:wrap;
 `
-
 
 class PostPage extends Component {
   constructor(props) {
@@ -90,6 +93,7 @@ class PostPage extends Component {
       this.props.voteComment(post.id, comment.id, currentVote)
     }
   }
+
   handleDislike = (post, comment) => {
     let currentVote = comment.userVoteDirection
     if (currentVote === -1) {
@@ -115,7 +119,6 @@ class PostPage extends Component {
           <PostList>
             {post && <Post content={post} />}
           </PostList>
-
           <FormStyle onSubmit={this.handleSubmit}>
             <MyTextArea
               type="text"
@@ -132,17 +135,17 @@ class PostPage extends Component {
           </FormStyle>
           <PostList>
             {post ?
-             post.comments.sort((a, b) => {
-              return b.createdAt - a.createdAt
-            })
-              .map(cadaComentario => (
-                <Post
-                  key={cadaComentario.id}
-                  content={cadaComentario}
-                  onClickLike={() => this.handleLike(post, cadaComentario)}
-                  onClickDislike={() => this.handleDislike(post, cadaComentario)}
-                />
-              )) :
+              post.comments.sort((a, b) => {
+                return b.createdAt - a.createdAt
+              })
+                .map(cadaComentario => (
+                  <Post
+                    key={cadaComentario.id}
+                    content={cadaComentario}
+                    onClickLike={() => this.handleLike(post, cadaComentario)}
+                    onClickDislike={() => this.handleDislike(post, cadaComentario)}
+                  />
+                )) :
               <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             }
           </PostList>
@@ -158,6 +161,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   goBack: () => dispatch(goBack()),
+  goToLoginPage: () => dispatch(push(routes.login)),
   publishComments: (postId, text) => dispatch(publishComments(postId, text)),
   getPostList: () => dispatch(getPosts()),
   voteComment: (postId, commentId, direction) => dispatch(voteComment(postId, commentId, direction))

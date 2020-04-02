@@ -6,16 +6,11 @@ import FeedPage from "../FeedPage";
 import RegisterPage from "../RegisterPage";
 import PostPage from "../PostPage";
 
-
-
-
-
 export const routes = {
   login: "/",
   feed: "/feed",
   register: "/register",
   post: "/post"
-
 };
 
 function Router(props) {
@@ -28,7 +23,6 @@ function Router(props) {
         <Route exact path={routes.post} component={PostPage} />
       </Switch>
     </ConnectedRouter>
-
   );
 }
 

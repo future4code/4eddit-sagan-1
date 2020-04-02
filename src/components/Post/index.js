@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-
-
 const PostWrapper = styled.div`
     width:100%;
     display:flex;
@@ -10,7 +8,6 @@ const PostWrapper = styled.div`
     border-radius: 5px;
     border: 1px solid #4472C4;
     margin: 3% 0;
-
 `
 const PostHeader = styled.div`
     background-color: #4472C4;
@@ -22,7 +19,6 @@ const PostHeader = styled.div`
 const PostContent = styled.div`
     min-height:80px;
 `
-
 const PostActions = styled.div`
     background-color:#4472C4;
     color:white;
@@ -45,7 +41,6 @@ const PostActions = styled.div`
     .like{
       color:#6fb94f
     }
-
 `
 
 export default function Post(props) {
@@ -87,14 +82,12 @@ export default function Post(props) {
           </>
         }
       </PostHeader>
-
       <PostContent >
         {content.text}
       </PostContent>
-
       <PostActions>
         <span>
-          <i className={`fa fa-thumbs-up ${colorLike}`} aria-hidden="true"  onClick={props.onClickLike} ></i>
+          <i className={`fa fa-thumbs-up ${colorLike}`} aria-hidden="true" onClick={props.onClickLike} ></i>
           <i className={`fa fa-thumbs-down ${colorDislike}`} aria-hidden="true" onClick={props.onClickDislike}></i>
           {content.votesCount || 0}
         </span>
@@ -104,7 +97,6 @@ export default function Post(props) {
             {content.commentsCount}
           </span>}
       </PostActions>
-
     </PostWrapper>
   )
 }

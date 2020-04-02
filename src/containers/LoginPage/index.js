@@ -1,14 +1,14 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import { routes } from '../Router'
-import ButtonAppBar from "../../components/AppBar";
 
-import ButtonStyle from '../../components/button'
-import styled from "styled-components";
-import MyTextField from '../../components/input'
 import { login } from "../../actions";
 
+import { routes } from '../Router'
+import ButtonAppBar from "../../components/AppBar";
+import ButtonStyle from '../../components/button'
+import MyTextField from '../../components/input'
 
 const PageWrapper = styled.div`
    width: 100%;
@@ -19,7 +19,6 @@ const PageWrapper = styled.div`
    align-items: center;
    background-color:#EDF1F9;
 `
-
 const ContentWrapper= styled.div`
   width: 100%;
   max-width: 900px;
@@ -74,7 +73,6 @@ class LoginPage extends Component {
     })
   }
  
- 
   render() {
     return (
       <PageWrapper>
@@ -110,7 +108,5 @@ const mapDispatchToProps = dispatch => {
     login: (form) => dispatch(login(form))
   }
 }
-
-
 
 export default connect(null, mapDispatchToProps)(LoginPage);

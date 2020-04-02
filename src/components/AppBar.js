@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { fade, makeStyles } from '@material-ui/core/styles';
 
-
 const useStyles = makeStyles(theme => ({
   root: {
     height: 64,
@@ -66,7 +65,7 @@ function ButtonAppBar(props) {
         <Typography variant="h6" >
           {props.pageName}
         </Typography>
-        <div className={classes.search}>
+        {props.onChangeSearchInputValue && <div className={classes.search}>
           <div className={classes.searchIcon}>
             <SearchIcon />
           </div>
@@ -76,9 +75,11 @@ function ButtonAppBar(props) {
               root: classes.inputRoot,
               input: classes.inputInput,
             }}
+            value={props.searchValue}
+            onChange={props.onChangeSearchInputValue}
             inputProps={{ 'aria-label': 'search' }}
           />
-        </div>
+        </div>}
         <Button variant="outlined" color="inherit" onClick={props.onClick}>{props.btnText}</Button>
       </Toolbar>
     </AppBar>
