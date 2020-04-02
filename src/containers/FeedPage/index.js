@@ -87,15 +87,22 @@ class FeedPage extends Component {
 
   handleLike = (post) => {
     let currentVote = post.userVoteDirection
-    if (currentVote < 1) {
-      currentVote++
+
+    if (currentVote === 1) {
+      currentVote = 0
+      this.props.votePost(post.id, currentVote)
+    } else {
+      currentVote = 1
       this.props.votePost(post.id, currentVote)
     }
   }
   handleDislike = (post) => {
     let currentVote = post.userVoteDirection
-    if (currentVote > -1) {
-      currentVote--
+    if (currentVote === -1) {
+      currentVote = 0
+      this.props.votePost(post.id, currentVote)
+    } else {
+      currentVote = -1
       this.props.votePost(post.id, currentVote)
     }
   }

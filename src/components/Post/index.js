@@ -31,21 +31,50 @@ const PostActions = styled.div`
     align-items:center;
     padding: 0 10px;
     height:30px;
-    .fa{
-        color:white;
+     .fa{
         margin: 0 3px;
         font-size:1.1rem;
         cursor: pointer;
     }
-    .fa:last-of-type{
+     .fa:last-of-type{
       margin-right: 6px;
     }
+    .dislike{
+      color:#ff5233;
+    }
+    .like{
+      color:#6fb94f
+    }
+
 `
 
-
-
 export default function Post(props) {
+
   const { content } = props
+
+  let colorLike, colorDislike
+  switch (content.userVoteDirection) {
+    case -1:
+      colorLike = false
+      colorDislike = 'dislike'
+      break;
+
+    case 0:
+      colorLike = false
+      colorDislike = false
+      break;
+
+    case 1:
+      colorDislike = false
+      colorLike = 'like'
+      break;
+
+    default:
+      colorLike = false
+      colorDislike = false
+      break;
+  }
+
   return (
     <PostWrapper>
       <PostHeader>
@@ -65,8 +94,8 @@ export default function Post(props) {
 
       <PostActions>
         <span>
-          <i className="fa fa-thumbs-up" aria-hidden="true" onClick={props.onClickLike} ></i>
-          <i className="fa fa-thumbs-down" aria-hidden="true" onClick={props.onClickDislike}></i>
+          <i className={`fa fa-thumbs-up ${colorLike}`} aria-hidden="true"  onClick={props.onClickLike} ></i>
+          <i className={`fa fa-thumbs-down ${colorDislike}`} aria-hidden="true" onClick={props.onClickDislike}></i>
           {content.votesCount || 0}
         </span>
         {content.commentsCount !== undefined &&

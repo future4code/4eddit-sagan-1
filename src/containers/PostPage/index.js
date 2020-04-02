@@ -78,15 +78,23 @@ class PostPage extends Component {
 
   handleLike = (post, comment) => {
     let currentVote = comment.userVoteDirection
-    if (currentVote < 1) {
-      currentVote++
+    if (currentVote === 1) {
+      currentVote = 0
+      this.props.voteComment(post.id, comment.id, currentVote)
+    }
+    else {
+      currentVote = 1
       this.props.voteComment(post.id, comment.id, currentVote)
     }
   }
   handleDislike = (post, comment) => {
     let currentVote = comment.userVoteDirection
-    if (currentVote > -1) {
-      currentVote--
+    if (currentVote === -1) {
+      currentVote = 0
+      this.props.voteComment(post.id, comment.id, currentVote)
+    }
+    else {
+      currentVote = -1
       this.props.voteComment(post.id, comment.id, currentVote)
     }
   }

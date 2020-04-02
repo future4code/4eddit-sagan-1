@@ -32,6 +32,7 @@ const ContentWrapper= styled.div`
   align-items:center;
 `
 const FormStyle = styled.form`
+  width: 35%;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
