@@ -34,6 +34,7 @@ class PostPage extends Component {
     } else {
       this.props.getPostDetails(this.props.postId)
     }
+    window.scrollTo(0,0)
   }
 
   componentWillUnmount() {

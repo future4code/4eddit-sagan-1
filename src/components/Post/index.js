@@ -18,6 +18,7 @@ const PostHeader = styled.div`
 `
 const PostContent = styled.div`
   min-height:80px;
+  word-wrap:break-word;
 `
 const PostActions = styled.div`
   background-color:#4472C4;

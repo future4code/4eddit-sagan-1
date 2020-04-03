@@ -34,7 +34,7 @@ export const ContentWrapper = styled.div`
   align-items:center;
 `
 export const LongContentWrapper = styled(ContentWrapper)`
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px); /* 80px é a soma da altura do AppBar com as margens top e bottom (64+8+8) */
   justify-content:flex-start;
   flex-direction:column;
 `
@@ -44,6 +44,12 @@ export const FormStyle = styled.form`
   flex-direction:column;
   justify-content:space-between;
   align-items:center;
+  @media (max-width: 904px) {
+    width:80%;
+  }
+  @media (max-width: 500px) {
+    width:90%;
+  }
 `
 export const LongFormStyle = styled(FormStyle)`
   width: 70%;
@@ -55,4 +61,11 @@ export const PostList = styled.div`
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
+  @media (max-width: 904px) {
+    width:80%;
+  }
+  @media (max-width: 500px) {
+    width:90%;
+  }
+
 `
