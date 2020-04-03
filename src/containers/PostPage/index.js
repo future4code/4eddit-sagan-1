@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { goBack, push } from "connected-react-router"
 import { connect } from "react-redux"
 
-import { getPosts, publishComments, voteComment } from "../../actions";
+import { getPostDetails, publishComments, voteComment, setPostDetails } from "../../actions";
 
 import ButtonAppBar from "../../components/AppBar";
 import { MyTextArea } from "../../components/input";
@@ -32,8 +32,12 @@ class PostPage extends Component {
     if (token === null) {
       this.props.goToLoginPage()
     } else {
-      this.props.getPostList()
+      this.props.getPostDetails(this.props.postId)
     }
+  }
+
+  componentWillUnmount() {
+    this.props.setPostDetails(undefined)
   }
 
   handleInputValue = (e) => {
@@ -126,15 +130,17 @@ class PostPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  post: state.posts.post
+  post: state.posts.post,
+  postId: state.posts.postId
 })
 
 const mapDispatchToProps = (dispatch) => ({
   goBack: () => dispatch(goBack()),
   goToLoginPage: () => dispatch(push(routes.login)),
+  getPostDetails: (postId) => dispatch(getPostDetails(postId)),
   publishComments: (postId, text) => dispatch(publishComments(postId, text)),
-  getPostList: () => dispatch(getPosts()),
-  voteComment: (postId, commentId, direction) => dispatch(voteComment(postId, commentId, direction))
+  voteComment: (postId, commentId, direction) => dispatch(voteComment(postId, commentId, direction)),
+  setPostDetails: (post) => dispatch(setPostDetails(post)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostPage);

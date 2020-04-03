@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
 
-import { publishPost, getPosts, getPostDetails, votePost } from "../../actions";
+import { publishPost, getPosts, getPostDetails, setPostIdForDetails, votePost } from "../../actions";
 
 import { routes } from "../Router";
 import MyTextField, { MyTextArea } from "../../components/input";
@@ -12,10 +12,11 @@ import ButtonAppBar from "../../components/AppBar";
 import Post from "../../components/Post";
 
 import {
-  LongPageWrapper, 
-  LongContentWrapper, 
+  LongPageWrapper,
+  LongContentWrapper,
   LongFormStyle,
-  PostList} from '../style/styles'
+  PostList
+} from '../style/styles'
 
 
 class FeedPage extends Component {
@@ -89,7 +90,7 @@ class FeedPage extends Component {
   }
 
   handleGetPostDetails = (postId) => {
-    this.props.getPostDetails(postId)
+    this.props.setPostIdForDetails(postId)
     this.props.goToPostPage()
   }
 
@@ -167,6 +168,7 @@ const mapDispatchToProps = (dispatch) => ({
   goToPostPage: () => dispatch(push(routes.post)),
   publishPost: (form) => dispatch(publishPost(form)),
   getPostList: () => dispatch(getPosts()),
+  setPostIdForDetails: (postId) => dispatch(setPostIdForDetails(postId)),
   getPostDetails: (postId) => dispatch(getPostDetails(postId)),
   votePost: (postId, direction) => dispatch(votePost(postId, direction))
 })

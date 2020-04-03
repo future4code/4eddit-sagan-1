@@ -163,3 +163,8 @@ export const setPostDetails = (post) => ({
   type: "SET_POST_DETAILS",
   payload: { post, }
 })
+
+export const setPostIdForDetails = (postId) => ({
+  type: "SET_POST_ID_FOR_DETAILS",
+  payload: {postId,}
+})
