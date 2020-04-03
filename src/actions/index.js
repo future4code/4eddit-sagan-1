@@ -18,6 +18,7 @@ export const signup = (form) => async dispatch => {
   }
   catch (error) {
     console.error(error)
+    window.alert('Falha ao realizar cadastro, por favor tente mais tarde')
   }
 }
 
@@ -34,6 +35,7 @@ export const login = (form) => async dispatch => {
   }
   catch (error) {
     console.error(error)
+    window.alert('Falha ao realizar login!\nVerifique seus dados ou tente mais tarde')
   }
 }
 

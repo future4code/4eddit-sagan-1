@@ -11,45 +11,13 @@ import ButtonStyle from "../../components/button"
 import Post from "../../components/Post";
 import { routes } from "../Router";
 
-const PageWrapper = styled.div`
-   width: 100%;
-   min-height: calc(100vh - 16px);
-   display:flex;
-   flex-direction: column;
-   justify-content: flex-start;
-   align-items: center;
-   background-color:#EDF1F9;
-   .fa-spinner{
-     color:#4472C4
-   }
-`
-const ContentWrapper = styled.div`
-  width: 100%;
-  max-width: 900px;
-  min-height: calc(100vh - 80px);
-  border-right: 2px solid #4472C4;
-  border-left: 2px solid #4472C4;
-  background-color: white;
-  display:flex;
-  justify-content:flex-start;
-  align-items:center;
-  flex-direction:column;
-`
-const FormStyle = styled.form`
-  width: 70%;
-  margin: 15px 0;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  align-items:center;
-`
-const PostList = styled.div`
-  width: 70%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-`
+import {
+  LongPageWrapper,
+  LongContentWrapper,
+  LongFormStyle,
+  PostList
+} from '../style/styles'
+
 
 class PostPage extends Component {
   constructor(props) {
@@ -109,30 +77,32 @@ class PostPage extends Component {
   render() {
     const { post } = this.props
     return (
-      <PageWrapper>
+      <LongPageWrapper>
         <ButtonAppBar
           pageName="Comentários da Timeline"
           btnText="Voltar"
           onClick={this.props.goBack}
         />
-        <ContentWrapper>
+        <LongContentWrapper>
           <PostList>
             {post && <Post content={post} />}
           </PostList>
-          <FormStyle onSubmit={this.handleSubmit}>
-            <MyTextArea
-              type="text"
-              name="text"
-              label="Escreva seu comentário"
-              required={true}
-              onChange={this.handleInputValue}
-              value={this.state.text}
-            />
-            <ButtonStyle
-              btnText="Comentar"
-              type="submit"
-            />
-          </FormStyle>
+          {post &&
+            <LongFormStyle onSubmit={this.handleSubmit}>
+              <MyTextArea
+                type="text"
+                name="text"
+                label="Escreva seu comentário"
+                required={true}
+                onChange={this.handleInputValue}
+                value={this.state.text}
+              />
+              <ButtonStyle
+                btnText="Comentar"
+                type="submit"
+              />
+            </LongFormStyle>
+          }
           <PostList>
             {post ?
               post.comments.sort((a, b) => {
@@ -149,8 +119,8 @@ class PostPage extends Component {
               <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             }
           </PostList>
-        </ContentWrapper>
-      </PageWrapper>
+        </LongContentWrapper>
+      </LongPageWrapper>
     );
   }
 }

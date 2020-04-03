@@ -14,9 +14,6 @@ const useStyles = makeStyles(theme => ({
   toolbar: {
     justifyContent: 'space-between',
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   title: {
     flexGrow: 1,
   },
