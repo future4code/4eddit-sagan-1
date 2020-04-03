@@ -11,12 +11,7 @@ import ButtonStyle from "../../components/button";
 import ButtonAppBar from "../../components/AppBar";
 import Post from "../../components/Post";
 
-import {
-  LongPageWrapper,
-  LongContentWrapper,
-  LongFormStyle,
-  PostList
-} from '../style/styles'
+import { LongPageWrapper, LongContentWrapper, LongFormStyle, PostList } from '../style/styles'
 
 
 class FeedPage extends Component {

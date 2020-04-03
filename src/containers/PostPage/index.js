@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { goBack, push } from "connected-react-router"
 import { connect } from "react-redux"
 
-import { getPostDetails, publishComments, voteComment, setPostDetails } from "../../actions";
+import { getPostDetails, publishComments, votePost, voteComment, setPostDetails } from "../../actions";
 
 import ButtonAppBar from "../../components/AppBar";
 import { MyTextArea } from "../../components/input";
@@ -11,12 +11,7 @@ import ButtonStyle from "../../components/button"
 import Post from "../../components/Post";
 import { routes } from "../Router";
 
-import {
-  LongPageWrapper,
-  LongContentWrapper,
-  LongFormStyle,
-  PostList
-} from '../style/styles'
+import { LongPageWrapper, LongContentWrapper, LongFormStyle, PostList } from '../style/styles'
 
 
 class PostPage extends Component {
@@ -34,11 +29,34 @@ class PostPage extends Component {
     } else {
       this.props.getPostDetails(this.props.postId)
     }
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0)
   }
 
   componentWillUnmount() {
     this.props.setPostDetails(undefined)
+  }
+
+  handleLikePost = (post) => {
+    let currentVote = post.userVoteDirection
+
+    if (currentVote === 1) {
+      currentVote = 0
+      this.props.votePost(post.id, currentVote)
+    } else {
+      currentVote = 1
+      this.props.votePost(post.id, currentVote)
+    }
+  }
+
+  handleDislikePost = (post) => {
+    let currentVote = post.userVoteDirection
+    if (currentVote === -1) {
+      currentVote = 0
+      this.props.votePost(post.id, currentVote)
+    } else {
+      currentVote = -1
+      this.props.votePost(post.id, currentVote)
+    }
   }
 
   handleInputValue = (e) => {
@@ -90,7 +108,12 @@ class PostPage extends Component {
         />
         <LongContentWrapper>
           <PostList>
-            {post && <Post content={post} />}
+            {post &&
+              <Post
+                content={post}
+                onClickLike={() => this.handleLikePost(post)}
+                onClickDislike={() => this.handleDislikePost(post)}
+              />}
           </PostList>
           {post &&
             <LongFormStyle onSubmit={this.handleSubmit}>
@@ -140,6 +163,7 @@ const mapDispatchToProps = (dispatch) => ({
   goToLoginPage: () => dispatch(push(routes.login)),
   getPostDetails: (postId) => dispatch(getPostDetails(postId)),
   publishComments: (postId, text) => dispatch(publishComments(postId, text)),
+  votePost: (postId, direction) => dispatch(votePost(postId, direction)),
   voteComment: (postId, commentId, direction) => dispatch(voteComment(postId, commentId, direction)),
   setPostDetails: (post) => dispatch(setPostDetails(post)),
 })

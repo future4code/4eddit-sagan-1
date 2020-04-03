@@ -128,6 +128,7 @@ export const votePost = (postId, direction) => async dispatch => {
     console.log(`Status Requisição votePost: ${response.status}`)
     console.log(`Mensagem Requisição votePost: ${response.statusText}`)
     dispatch(getPosts())
+    dispatch(getPostDetails(postId))
   }
   catch (error) {
     console.error(error)
