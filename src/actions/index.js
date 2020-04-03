@@ -18,6 +18,7 @@ export const signup = (form) => async dispatch => {
   }
   catch (error) {
     console.error(error)
+    window.alert('Falha ao realizar cadastro, por favor tente mais tarde')
   }
 }
 
@@ -34,6 +35,7 @@ export const login = (form) => async dispatch => {
   }
   catch (error) {
     console.error(error)
+    window.alert('Falha ao realizar login!\nVerifique seus dados ou tente mais tarde')
   }
 }
 
@@ -126,6 +128,7 @@ export const votePost = (postId, direction) => async dispatch => {
     console.log(`Status Requisição votePost: ${response.status}`)
     console.log(`Mensagem Requisição votePost: ${response.statusText}`)
     dispatch(getPosts())
+    dispatch(getPostDetails(postId))
   }
   catch (error) {
     console.error(error)
@@ -160,4 +163,9 @@ export const setPost = (listPost) => ({
 export const setPostDetails = (post) => ({
   type: "SET_POST_DETAILS",
   payload: { post, }
+})
+
+export const setPostIdForDetails = (postId) => ({
+  type: "SET_POST_ID_FOR_DETAILS",
+  payload: {postId,}
 })

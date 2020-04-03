@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
 
-import { publishPost, getPosts, getPostDetails, votePost } from "../../actions";
+import { publishPost, getPosts, getPostDetails, setPostIdForDetails, votePost } from "../../actions";
 
 import { routes } from "../Router";
 import MyTextField, { MyTextArea } from "../../components/input";
@@ -11,45 +11,8 @@ import ButtonStyle from "../../components/button";
 import ButtonAppBar from "../../components/AppBar";
 import Post from "../../components/Post";
 
-const PageWrapper = styled.div`
-   width: 100%;
-   min-height: calc(100vh - 16px);
-   display:flex;
-   flex-direction: column;
-   justify-content: flex-start;
-   align-items: center;
-   background-color:#EDF1F9;
-   .fa-spinner{
-     color:#4472C4
-   }
-`
-const ContentWrapper = styled.div`
-  width: 100%;
-  max-width: 900px;
-  min-height: calc(100vh - 80px);
-  border-right: 2px solid #4472C4;
-  border-left: 2px solid #4472C4;
-  background-color: white;
-  display:flex;
-  justify-content:flex-start;
-  align-items:center;
-  flex-direction:column;
-`
-const FormStyle = styled.form`
-  width: 70%;
-  margin: 15px 0;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  align-items:center;
-`
-const PostList = styled.div`
-  width: 70%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-`
+import { LongPageWrapper, LongContentWrapper, LongFormStyle, PostList } from '../style/styles'
+
 
 class FeedPage extends Component {
   constructor(props) {
@@ -122,7 +85,7 @@ class FeedPage extends Component {
   }
 
   handleGetPostDetails = (postId) => {
-    this.props.getPostDetails(postId)
+    this.props.setPostIdForDetails(postId)
     this.props.goToPostPage()
   }
 
@@ -130,7 +93,7 @@ class FeedPage extends Component {
     const { postList, goToLoginPage } = this.props
     const { searchInputValue, form } = this.state
     return (
-      <PageWrapper>
+      <LongPageWrapper>
         <ButtonAppBar
           pageName="Timeline"
           btnText="Logout"
@@ -138,8 +101,8 @@ class FeedPage extends Component {
           searchValue={searchInputValue}
           onChangeSearchInputValue={this.handleSearchInputValue}
         />
-        <ContentWrapper>
-          <FormStyle onSubmit={this.handleSubmit}>
+        <LongContentWrapper>
+          <LongFormStyle onSubmit={this.handleSubmit}>
             <MyTextField
               type="text"
               name="title"
@@ -160,7 +123,7 @@ class FeedPage extends Component {
               btnText="Publicar"
               type="submit"
             />
-          </FormStyle>
+          </LongFormStyle>
           <PostList>
             {postList.length > 0 ?
               postList.filter(cadaPost => (
@@ -185,8 +148,8 @@ class FeedPage extends Component {
               : <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             }
           </PostList>
-        </ContentWrapper>
-      </PageWrapper>
+        </LongContentWrapper>
+      </LongPageWrapper>
     );
   }
 }
@@ -200,6 +163,7 @@ const mapDispatchToProps = (dispatch) => ({
   goToPostPage: () => dispatch(push(routes.post)),
   publishPost: (form) => dispatch(publishPost(form)),
   getPostList: () => dispatch(getPosts()),
+  setPostIdForDetails: (postId) => dispatch(setPostIdForDetails(postId)),
   getPostDetails: (postId) => dispatch(getPostDetails(postId)),
   votePost: (postId, direction) => dispatch(votePost(postId, direction))
 })

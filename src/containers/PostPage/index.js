@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { goBack, push } from "connected-react-router"
 import { connect } from "react-redux"
 
-import { getPosts, publishComments, voteComment } from "../../actions";
+import { getPostDetails, publishComments, votePost, voteComment, setPostDetails } from "../../actions";
 
 import ButtonAppBar from "../../components/AppBar";
 import { MyTextArea } from "../../components/input";
@@ -11,45 +11,8 @@ import ButtonStyle from "../../components/button"
 import Post from "../../components/Post";
 import { routes } from "../Router";
 
-const PageWrapper = styled.div`
-   width: 100%;
-   min-height: calc(100vh - 16px);
-   display:flex;
-   flex-direction: column;
-   justify-content: flex-start;
-   align-items: center;
-   background-color:#EDF1F9;
-   .fa-spinner{
-     color:#4472C4
-   }
-`
-const ContentWrapper = styled.div`
-  width: 100%;
-  max-width: 900px;
-  min-height: calc(100vh - 80px);
-  border-right: 2px solid #4472C4;
-  border-left: 2px solid #4472C4;
-  background-color: white;
-  display:flex;
-  justify-content:flex-start;
-  align-items:center;
-  flex-direction:column;
-`
-const FormStyle = styled.form`
-  width: 70%;
-  margin: 15px 0;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  align-items:center;
-`
-const PostList = styled.div`
-  width: 70%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-`
+import { LongPageWrapper, LongContentWrapper, LongFormStyle, PostList } from '../style/styles'
+
 
 class PostPage extends Component {
   constructor(props) {
@@ -64,7 +27,35 @@ class PostPage extends Component {
     if (token === null) {
       this.props.goToLoginPage()
     } else {
-      this.props.getPostList()
+      this.props.getPostDetails(this.props.postId)
+    }
+    window.scrollTo(0, 0)
+  }
+
+  componentWillUnmount() {
+    this.props.setPostDetails(undefined)
+  }
+
+  handleLikePost = (post) => {
+    let currentVote = post.userVoteDirection
+
+    if (currentVote === 1) {
+      currentVote = 0
+      this.props.votePost(post.id, currentVote)
+    } else {
+      currentVote = 1
+      this.props.votePost(post.id, currentVote)
+    }
+  }
+
+  handleDislikePost = (post) => {
+    let currentVote = post.userVoteDirection
+    if (currentVote === -1) {
+      currentVote = 0
+      this.props.votePost(post.id, currentVote)
+    } else {
+      currentVote = -1
+      this.props.votePost(post.id, currentVote)
     }
   }
 
@@ -109,30 +100,37 @@ class PostPage extends Component {
   render() {
     const { post } = this.props
     return (
-      <PageWrapper>
+      <LongPageWrapper>
         <ButtonAppBar
           pageName="Comentários da Timeline"
           btnText="Voltar"
           onClick={this.props.goBack}
         />
-        <ContentWrapper>
+        <LongContentWrapper>
           <PostList>
-            {post && <Post content={post} />}
+            {post &&
+              <Post
+                content={post}
+                onClickLike={() => this.handleLikePost(post)}
+                onClickDislike={() => this.handleDislikePost(post)}
+              />}
           </PostList>
-          <FormStyle onSubmit={this.handleSubmit}>
-            <MyTextArea
-              type="text"
-              name="text"
-              label="Escreva seu comentário"
-              required={true}
-              onChange={this.handleInputValue}
-              value={this.state.text}
-            />
-            <ButtonStyle
-              btnText="Comentar"
-              type="submit"
-            />
-          </FormStyle>
+          {post &&
+            <LongFormStyle onSubmit={this.handleSubmit}>
+              <MyTextArea
+                type="text"
+                name="text"
+                label="Escreva seu comentário"
+                required={true}
+                onChange={this.handleInputValue}
+                value={this.state.text}
+              />
+              <ButtonStyle
+                btnText="Comentar"
+                type="submit"
+              />
+            </LongFormStyle>
+          }
           <PostList>
             {post ?
               post.comments.sort((a, b) => {
@@ -149,22 +147,25 @@ class PostPage extends Component {
               <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             }
           </PostList>
-        </ContentWrapper>
-      </PageWrapper>
+        </LongContentWrapper>
+      </LongPageWrapper>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  post: state.posts.post
+  post: state.posts.post,
+  postId: state.posts.postId
 })
 
 const mapDispatchToProps = (dispatch) => ({
   goBack: () => dispatch(goBack()),
   goToLoginPage: () => dispatch(push(routes.login)),
+  getPostDetails: (postId) => dispatch(getPostDetails(postId)),
   publishComments: (postId, text) => dispatch(publishComments(postId, text)),
-  getPostList: () => dispatch(getPosts()),
-  voteComment: (postId, commentId, direction) => dispatch(voteComment(postId, commentId, direction))
+  votePost: (postId, direction) => dispatch(votePost(postId, direction)),
+  voteComment: (postId, commentId, direction) => dispatch(voteComment(postId, commentId, direction)),
+  setPostDetails: (post) => dispatch(setPostDetails(post)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostPage);

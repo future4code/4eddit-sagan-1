@@ -1,6 +1,7 @@
 const initialState = {
   postList: [],
-  post: undefined
+  post: undefined,
+  postId:localStorage.getItem('postId')
 }
 
 const posts = (state = initialState, action) => {
@@ -13,6 +14,11 @@ const posts = (state = initialState, action) => {
       return {
         ...state, post: action.payload.post
       }
+      case "SET_POST_ID_FOR_DETAILS":
+        localStorage.setItem('postId', action.payload.postId)
+        return{
+          ...state, postId: action.payload.postId
+        }
     default:
       return {
         ...state

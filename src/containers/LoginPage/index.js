@@ -10,33 +10,8 @@ import ButtonAppBar from "../../components/AppBar";
 import ButtonStyle from '../../components/button'
 import MyTextField from '../../components/input'
 
-const PageWrapper = styled.div`
-   width: 100%;
-   height: calc(100vh - 16px);
-   display:flex;
-   flex-direction: column;
-   justify-content: flex-start;
-   align-items: center;
-   background-color:#EDF1F9;
-`
-const ContentWrapper= styled.div`
-  width: 100%;
-  max-width: 900px;
-  height: 100%;
-  border-right: 2px solid #4472C4;
-  border-left: 2px solid #4472C4;
-  background-color: white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-`
-const FormStyle = styled.form`
-  width: 35%;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  align-items:center;
-`
+import {PageWrapper, ContentWrapper, FormStyle} from '../style/styles'
+
 
 class LoginPage extends Component {
     constructor(props){
