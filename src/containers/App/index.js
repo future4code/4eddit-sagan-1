@@ -1,13 +1,15 @@
 import React from "react";
+import { createGlobalStyle } from 'styled-components'
+import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
+import { routerMiddleware } from "connected-react-router";
 import thunk from "redux-thunk";
 import { MuiThemeProvider, CssBaseline } from "@material-ui/core";
+import { createBrowserHistory } from "history";
+
 import theme from "../../style/theme";
 import Router from "../Router";
-import { createBrowserHistory } from "history";
-import { createStore, applyMiddleware, compose } from "redux";
 import { generateReducers } from "../../reducers";
-import { routerMiddleware } from "connected-react-router";
 
 export const history = createBrowserHistory();
 
@@ -20,10 +22,18 @@ const middlewares = [
 
 const store = createStore(generateReducers(history), compose(...middlewares));
 
+const GlobalStyle = createGlobalStyle`
+  body{
+    margin:8px;
+    height:calc(100vh - 16px);
+  }
+`
+
 export const App = () => (
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
+      <GlobalStyle />
       <Router history={history} />
     </MuiThemeProvider>
   </Provider>
